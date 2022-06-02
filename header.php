@@ -52,7 +52,7 @@ include 'config/config.php';
             </ul>
             <ul class="navbar-nav mr-5">
                 <li class="nav-item">
-                    <a class="nav-link" href="login.php">Login</a>
+                    <?php if(!$_SESSION['user_id']) echo '<a class="nav-link" href="login.php">Login</a>'; ?>
                 </li>
             </ul>
 
@@ -60,8 +60,8 @@ include 'config/config.php';
     </nav>
     <!--Thanh tiềm kiếm-->
     <div id="searchBar" class="collapse">
-        <form action="" class="search-bar mx-auto mb-2 mt-1">
-            <input type="search" placeholder="search product" />
+        <form action="products.php" class="search-bar mx-auto mb-2 mt-1">
+            <input type="search" placeholder="search product" name="search" />
             <button type="submit"><i class="fa fa-search"></i></button>
         </form>
     </div>
@@ -69,8 +69,10 @@ include 'config/config.php';
     <!--Menu tài khoản khi đăng nhập-->
     <div class="collapse " id="menuAccount">
         <div class="py-2 px-5 text-right">
-            <a href="">Account</a>
-            <a>Logout</a>
+            <?php
+            if ($_SESSION['user_id']) echo '<a href="#">Xin chào, ' . $_SESSION['user_full_name'] . '!</a><a href="">Account</a><a href="logout.php">Logout</a>';
+            else echo '<a href="login.php">Vui lòng đăng nhập!</a>';
+            ?>
         </div>
     </div>
     <!--Hết Menu tài khoản khi đăng nhập-->

@@ -1,11 +1,13 @@
 <?php
 include 'header.php';
+
+$product = new Product();
 ?>
 <div>
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb ">
             <li class="breadcrumb-item ml-5"> <a href="index.php">Home</a></li>
-            <li class="breadcrumb-item active" aria-current="page" > <a href="products.php">Product</a></li>
+            <li class="breadcrumb-item active" aria-current="page"> <a href="products.php">Product</a></li>
         </ol>
     </nav>
     <div class="narrow text-left">
@@ -30,12 +32,15 @@ include 'header.php';
             <div class="col-md-9">
                 <div class="row">
                     <?php
-                    $product = new Product();
                     if (getGET('product_type_id'))
                         $products = $product->getProductsByProductTypeId(getGET('product_type_id'));
-                    else
+                    else if (getGET('search')) {
+                        $products = $product->search(getGET('search'), 1, 0, 0);
+                    } else {
                         $products = $product->getProducts();
-                    foreach ($products as $k => $v) {
+                    }
+                    if ($products != false)
+                        foreach ($products as $k => $v) {
                     ?>
                         <div class="col-md-6 col-lg-4">
                             <div class="thumbnail">
@@ -49,7 +54,8 @@ include 'header.php';
                             </div>
                         </div>
                     <?php
-                    }
+                        }
+                    else echo 'Không tìm thấy!';
                     ?>
                 </div>
             </div>

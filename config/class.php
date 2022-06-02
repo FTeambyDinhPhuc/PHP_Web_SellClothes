@@ -18,6 +18,8 @@ class DB
     }
     public function Offset($page = 1, $limit = DATA_PER_PAGE)
     {
+        $limit = mysqli_escape_string($this->conn, $limit);
+        if ($limit == 0) return '';
         $page = mysqli_escape_string($this->conn, $page);
         if ($page < 1 || !is_numeric($page)) $page = 1;
         $offset = ' LIMIT ' . (($page - 1) *  $limit) . ',' .  $limit;
@@ -30,7 +32,7 @@ class User extends DB
     public function validUser($username)
     {
         $username = mysqli_escape_string($this->conn, $username);
-        $a = mysqli_query($this->conn, "SELECT * FROM user WHERE `user_email`='$username'");
+        $a = mysqli_query($this->conn, "SELECT * FROM user WHERE `user_email` = '$username'");
         if (mysqli_num_rows($a))
             while ($row = mysqli_fetch_assoc($a))
                 $b = $row;
@@ -46,7 +48,7 @@ class User extends DB
     {
         $email = mysqli_escape_string($this->conn, $email);
         $pass = $this->encryptedPassword($password);
-        $a = mysqli_query($this->conn, "SELECT * FROM user WHERE `user_email`='$email' AND `user_password`='$pass'");
+        $a = mysqli_query($this->conn, "SELECT * FROM user WHERE `user_email` = '$email' AND `user_password` = '$pass'");
         if (mysqli_num_rows($a))
             while ($row = mysqli_fetch_assoc($a))
                 $b = $row;
@@ -60,9 +62,8 @@ class User extends DB
         $a = $this->validUser($user_email);
         if ($a == false) {
             $user_password = $this->encryptedPassword($user_password);
-            $user_created_at = time();
-            $b = mysqli_query($this->conn, "INSERT INTO user (`user_fullname`, `user_email`, `user_password`, `user_created_at`) 
-                                                        VALUES ('$user_fullname', '$user_email', '$user_password', '$user_created_at')");
+            $b = mysqli_query($this->conn, "INSERT INTO user (`user_full_name`, `user_email`, `user_password`) 
+                                                        VALUES ('$user_fullname', '$user_email', '$user_password')");
             if ($b)
                 return true;
             else
@@ -111,13 +112,13 @@ class User extends DB
     public function startSession($user)
     {
         $_SESSION['user_id'] = $user['user_id'];
-        $_SESSION['user_fullname'] = $user['user_fullname'];
+        $_SESSION['user_full_name'] = $user['user_full_name'];
         $_SESSION['user_email'] = $user['user_email'];
         return true;
     }
     public function updateSession($user_fullname = '', $user_email = '')
     {
-        if ($user_fullname != '') $_SESSION['user_fullname'] = $user_fullname;
+        if ($user_fullname != '') $_SESSION['user_full_name'] = $user_fullname;
         if ($user_email != '') $_SESSION['user_email'] = $user_email;
         return true;
     }
@@ -125,7 +126,7 @@ class User extends DB
     {
         // session_destroy();
         unset($_SESSION['user_id']);
-        unset($_SESSION['user_fullname']);
+        unset($_SESSION['user_full_name']);
         unset($_SESSION['user_email']);
     }
 }
