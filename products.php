@@ -16,7 +16,7 @@ $product = new Product();
             <div class="heading-underline mr-auto ml-5"></div>
         </div>
         <div class="row text-center">
-            <div class="col-md-3">
+            <div class="col-lg-3">
                 <nav class="sidebar">
                     <div class="text">Category</div>
                     <ul>
@@ -29,7 +29,7 @@ $product = new Product();
                     </ul>
                 </nav>
             </div>
-            <div class="col-md-9">
+            <div class="col-lg-9">
                 <div class="row">
                     <?php
                     if (getGET('product_type_id'))
@@ -43,15 +43,13 @@ $product = new Product();
                         foreach ($products as $k => $v) {
                     ?>
                         <div class="col-md-6 col-lg-4">
-                            <div class="thumbnail">
-                                <a class="card" href="product-details.php?product_id=<?php echo $v['product_id']; ?>">
-                                    <img src="<?php echo $v['product_img']; ?>" class="card-img-top">
-                                    <div class="card-body">
-                                        <p style="text-overflow: ellipsis; white-space: nowrap; overflow: hidden;" title="<?php echo $v['product_name']; ?>" class="name-product card-title"><?php echo $v['product_name']; ?></p>
-                                        <p class="price-product card-text"><?php echo $v['product_price']; ?><span class="currency-symbol">&#160;VND</span></p>
-                                    </div>
-                                </a>
-                            </div>
+                            <a class="card" href="product-details.php?product_id=<?php echo $v['product_id']; ?>">
+                                <img src="<?php echo $v['product_img']; ?>">
+                                <div class="card-body">
+                                    <p style="text-overflow: ellipsis; white-space: nowrap; overflow: hidden;" title="<?php echo $v['product_name']; ?>" class="name-product card-title"><?php echo $v['product_name']; ?></p>
+                                    <p class="price-product card-text"><?php echo $v['product_price']; ?><span class="currency-symbol">&#160;VND</span></p>
+                                </div>
+                            </a>
                         </div>
                     <?php
                         }

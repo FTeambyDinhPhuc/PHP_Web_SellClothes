@@ -14,7 +14,6 @@ if ($_POST['submit']) {
 ?>
 <div id="authenForm">
     <div class="container-authenForm shadow">
-        <input type="checkbox" id="flip" />
         <div class="cover">
             <div class="front">
                 <img src="assets/img/authenbackgroundImage.jpg" alt="" />

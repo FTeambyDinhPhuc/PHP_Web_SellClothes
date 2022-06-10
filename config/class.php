@@ -26,8 +26,30 @@ class DB
         return $offset;
     }
 }
+class Admin
+{
+    public function login($password)
+    {
+        if (strtolower($password) == strtolower(ADMIN_PASSWORD)) return true;
+        else return false;
+    }
+    public function startSession()
+    {
+        $_SESSION['admin'] = true;
+    }
+    public static function endSession()
+    {
+        unset($_SESSION['admin']);
+    }
+}
 class User extends DB
 {
+    public function getCount()
+    {
+        $total = mysqli_query($this->conn, "SELECT COUNT(user_id) AS total FROM user");
+        $total = mysqli_fetch_assoc($total)['total'];
+        return $total;
+    }
     // $this->conn = $conn;
     public function validUser($username)
     {
@@ -81,7 +103,16 @@ class User extends DB
         mysqli_free_result($a);
         return $b;
     }
-    public function updateUser($user_id, $user_fullname, $user_email, $user_phone_number, $user_address, $user_bank_account_number = '', $user_bank_name = '')
+    public function getUsers()
+    {
+        $a = mysqli_query($this->conn, "SELECT * FROM user");
+        $b = array();
+        if (mysqli_num_rows($a))
+            while ($row = mysqli_fetch_assoc($a))
+                $b = array_merge($b, array($row));
+        return $b;
+    }
+    public function updateUser($user_id, $user_fullname, $user_email, $user_phone_number, $user_address)
     {
         $a = $this->getUser($user_id);
         if ($a != false) {
@@ -90,10 +121,7 @@ class User extends DB
             $user_email = mysqli_escape_string($this->conn, $user_email);
             $user_phone_number = mysqli_escape_string($this->conn, $user_phone_number);
             $user_address = mysqli_escape_string($this->conn, $user_address);
-            $user_bank_account_number = mysqli_escape_string($this->conn, $user_bank_account_number);
-            $user_bank_name = mysqli_escape_string($this->conn, $user_bank_name);
-            $b = mysqli_query($this->conn, "UPDATE users SET `user_fullname` = '$user_fullname', `user_email` = '$user_email', `user_phone_number` = '$user_phone_number', `user_address` = '$user_address',
-															`user_bank_account_number` = '$user_bank_account_number', `user_bank_name` = '$user_bank_name' WHERE user_id = $user_id");
+            $b = mysqli_query($this->conn, "UPDATE user SET `user_full_name` = '$user_fullname', `user_email` = '$user_email', `user_phone_number` = '$user_phone_number', `user_address` = '$user_address' WHERE user_id = $user_id");
             if ($b) return true;
             else return false;
         } else return false;
@@ -104,7 +132,7 @@ class User extends DB
         if ($a != false) {
             $user_id = mysqli_escape_string($this->conn, $user_id);
             $user_password = $this->encryptedPassword($user_password);
-            $b = mysqli_query($this->conn, "UPDATE users SET `user_password` = '$user_password' WHERE user_id = $user_id");
+            $b = mysqli_query($this->conn, "UPDATE user SET `user_password` = '$user_password' WHERE user_id = $user_id");
             if ($b) return true;
             else return false;
         } else return false;
@@ -218,41 +246,43 @@ class Products extends DB
         $total = mysqli_fetch_assoc($total)['total'];
         return $total;
     }
-    public function postProduct($product_name, $product_type_id, $product_price, $product_rental_price, $product_img, $product_quantity, $product_sizes, $product_weight, $product_description)
+    public function postProduct($product_name, $product_introduce, $product_detail, $product_price, $product_img, $product_quantity, $product_location, $product_material, $product_type_id, $product_size)
     {
         $product_name = mysqli_escape_string($this->conn, $product_name);
-        $product_type_id = mysqli_escape_string($this->conn, $product_type_id);
+        $product_introduce = mysqli_escape_string($this->conn, $product_introduce);
+        $product_detail = mysqli_escape_string($this->conn, $product_detail);
         $product_price = mysqli_escape_string($this->conn, $product_price);
-        $product_rental_price = mysqli_escape_string($this->conn, $product_rental_price);
         $product_img = mysqli_escape_string($this->conn, $product_img);
         $product_quantity = mysqli_escape_string($this->conn, $product_quantity);
-        $product_sizes = mysqli_escape_string($this->conn, $product_sizes);
-        $product_weight = mysqli_escape_string($this->conn, $product_weight);
-        $product_description = mysqli_escape_string($this->conn, $product_description);
+        $product_location = mysqli_escape_string($this->conn, $product_location);
+        $product_material = mysqli_escape_string($this->conn, $product_material);
+        $product_type_id = mysqli_escape_string($this->conn, $product_type_id);
+        $product_size = mysqli_escape_string($this->conn, $product_size);
 
-        $b = mysqli_query($this->conn, "INSERT INTO products (`product_name`, `product_type_id`, `product_price`, `product_rental_price`, `product_img`, `product_quantity`, `product_sizes`, `product_weight`, `product_description`) 
-													VALUES ('$product_name', '$product_type_id', '$product_price', '$product_rental_price', '$product_img', '$product_quantity', '$product_sizes', '$product_weight', '$product_description')");
+        $b = mysqli_query($this->conn, "INSERT INTO products (`product_name`, `product_introduce`, `product_detail`, `product_price`, `product_img`, `product_quantity`, `product_location`, `product_material`, `product_type_id`, `product_size`) 
+													VALUES ('$product_name', '$product_introduce', '$product_detail', '$product_price', '$product_img', '$product_quantity', '$product_location', '$product_material', '$product_type_id', '$product_size')");
         // var_dump(mysqli_error($this->conn));
         if ($b) return true;
         else return false;
     }
-    public function updateProduct($product_id, $product_name, $product_type_id, $product_price, $product_rental_price, $product_img, $product_quantity, $product_sizes, $product_weight, $product_description)
+    public function updateProduct($product_id, $product_name, $product_introduce, $product_detail, $product_price, $product_img, $product_quantity, $product_location, $product_material, $product_type_id, $product_size)
     {
         $a = $this->getProductById($product_id);
         if ($a != false) {
             $product_id = mysqli_escape_string($this->conn, $product_id);
             $product_name = mysqli_escape_string($this->conn, $product_name);
-            $product_type_id = mysqli_escape_string($this->conn, $product_type_id);
+            $product_introduce = mysqli_escape_string($this->conn, $product_introduce);
+            $product_detail = mysqli_escape_string($this->conn, $product_detail);
             $product_price = mysqli_escape_string($this->conn, $product_price);
-            $product_rental_price = mysqli_escape_string($this->conn, $product_rental_price);
             $product_img = mysqli_escape_string($this->conn, $product_img);
             $product_quantity = mysqli_escape_string($this->conn, $product_quantity);
-            $product_sizes = mysqli_escape_string($this->conn, $product_sizes);
-            $product_weight = mysqli_escape_string($this->conn, $product_weight);
-            $product_description = mysqli_escape_string($this->conn, $product_description);
+            $product_location = mysqli_escape_string($this->conn, $product_location);
+            $product_material = mysqli_escape_string($this->conn, $product_material);
+            $product_type_id = mysqli_escape_string($this->conn, $product_type_id);
+            $product_size = mysqli_escape_string($this->conn, $product_size);
 
-            $b = mysqli_query($this->conn, "UPDATE products SET `product_name` = '$product_name', `product_type_id` = '$product_type_id', `product_price` = '$product_price', `product_rental_price` = '$product_rental_price', `product_img` = '$product_img',
-				`product_quantity` = '$product_quantity', `product_sizes` = '$product_sizes', `product_weight` = '$product_weight', `product_description` = '$product_description' WHERE product_id = $product_id");
+            $b = mysqli_query($this->conn, "UPDATE products SET `product_name` = '$product_name', `product_introduce` = '$product_introduce', `product_detail` = '$product_detail', `product_price` = '$product_price', `product_img` = '$product_img',
+				`product_quantity` = '$product_quantity', `product_location` = '$product_location', `product_material` = '$product_material', `product_type_id` = '$product_type_id', `product_size` = '$product_size' WHERE product_id = $product_id");
             if ($b) return true;
             else return false;
         } else return false;
@@ -286,50 +316,53 @@ class Cart extends DB
     public function getCount($user_id)
     {
         $user_id = mysqli_escape_string($this->conn, $user_id);
-        $total = mysqli_query($this->conn, "SELECT COUNT(user_id) AS total FROM carts WHERE `user_id` = $user_id");
+        $total = mysqli_query($this->conn, "SELECT COUNT(user_id) AS total FROM cart WHERE `user_id` = $user_id");
         $total = mysqli_fetch_assoc($total)['total'];
         return $total;
     }
     public function getCart($user_id)
     {
         $user_id = mysqli_escape_string($this->conn, $user_id);
-        $a = mysqli_query($this->conn, "SELECT C.product_id, P.product_name, P.product_rental_price, P.product_img, P.product_quantity, P.product_weight, cart_product_quantity FROM carts C LEFT JOIN products P ON C.product_id = P.product_id WHERE `user_id` = '$user_id'");
+        $a = mysqli_query($this->conn, "SELECT C.*, P.product_name, P.product_price, P.product_img, P.product_quantity FROM cart C LEFT JOIN products P ON C.product_id = P.product_id WHERE `user_id` = '$user_id'");
         $b = array();
         if (mysqli_num_rows($a))
             while ($row = mysqli_fetch_assoc($a)) $b = array_merge($b, array($row));
         mysqli_free_result($a);
         return $b;
     }
-    public function postCart($user_id, $product_id, $cart_product_quantity)
+    public function postCart($user_id, $product_id, $cart_product_size, $cart_product_quantity)
     {
         $user_id = mysqli_escape_string($this->conn, $user_id);
         $product_id = mysqli_escape_string($this->conn, $product_id);
+        $cart_product_size = mysqli_escape_string($this->conn, $cart_product_size);
         $cart_product_quantity = mysqli_escape_string($this->conn, $cart_product_quantity);
-        $b = mysqli_query($this->conn, "INSERT INTO carts VALUES ('$user_id', '$product_id', '$cart_product_quantity') ON DUPLICATE KEY UPDATE cart_product_quantity = cart_product_quantity + $cart_product_quantity");
+        $b = mysqli_query($this->conn, "INSERT INTO cart VALUES ('$user_id', '$product_id', '$cart_product_size', '$cart_product_quantity') ON DUPLICATE KEY UPDATE cart_product_quantity = cart_product_quantity + $cart_product_quantity");
         if ($b) return true;
         else return false;
     }
-    public function updateCart($user_id, $product_id, $cart_product_quantity)
+    public function updateCart($user_id, $product_id, $cart_product_size, $cart_product_quantity)
     {
         $user_id = mysqli_escape_string($this->conn, $user_id);
         $product_id = mysqli_escape_string($this->conn, $product_id);
+        $cart_product_size = mysqli_escape_string($this->conn, $cart_product_size);
         $cart_product_quantity = mysqli_escape_string($this->conn, $cart_product_quantity);
-        $b = mysqli_query($this->conn, "UPDATE carts SET `cart_product_quantity` = '$cart_product_quantity' WHERE user_id = '$user_id' AND product_id = '$product_id'");
+        $b = mysqli_query($this->conn, "UPDATE cart SET `cart_product_quantity` = '$cart_product_quantity' WHERE user_id = '$user_id' AND product_id = '$product_id' AND cart_product_size = '$cart_product_size'");
         if ($b) return true;
         else return false;
     }
-    public function deleteCart($user_id, $product_id)
+    public function deleteCart($user_id, $product_id, $cart_product_size)
     {
         $user_id = mysqli_escape_string($this->conn, $user_id);
         $product_id = mysqli_escape_string($this->conn, $product_id);
-        $b = mysqli_query($this->conn, "DELETE FROM carts WHERE user_id = $user_id AND product_id = $product_id");
+        $cart_product_size = mysqli_escape_string($this->conn, $cart_product_size);
+        $b = mysqli_query($this->conn, "DELETE FROM cart WHERE user_id = $user_id AND product_id = $product_id AND cart_product_size = '$cart_product_size'");
         if ($b) return true;
         else return false;
     }
     public function deleteCartsByUserId($user_id)
     {
         $user_id = mysqli_escape_string($this->conn, $user_id);
-        $b = mysqli_query($this->conn, "DELETE FROM carts WHERE user_id = $user_id");
+        $b = mysqli_query($this->conn, "DELETE FROM cart WHERE user_id = $user_id");
         if ($b) return true;
         else return false;
     }
@@ -338,14 +371,14 @@ class Invoice extends DB
 {
     public function getCount()
     {
-        $total = mysqli_query($this->conn, "SELECT COUNT(invoice_id) AS total FROM invoices");
+        $total = mysqli_query($this->conn, "SELECT COUNT(invoice_id) AS total FROM invoice");
         $total = mysqli_fetch_assoc($total)['total'];
         return $total;
     }
     public function getInvoices($page = 1, $limit = DATA_PER_PAGE)
     {
         $offset = $this->Offset($page, $limit);
-        $a = mysqli_query($this->conn, "SELECT invoice_id, invoice_user_fullname, invoice_user_phone_number, invoice_user_email, invoice_subtotal, invoice_fee_transport, invoice_fee_bond, invoice_status, invoice_created_at FROM invoices ORDER BY invoice_id DESC " . $offset);
+        $a = mysqli_query($this->conn, "SELECT * FROM invoice I LEFT JOIN user U ON I.user_id = U.user_id ORDER BY invoice_id DESC " . $offset);
         $b = array();
         if (mysqli_num_rows($a))
             while ($row = mysqli_fetch_assoc($a)) $b = array_merge($b, array($row));
@@ -355,7 +388,7 @@ class Invoice extends DB
     public function getInvoice($invoice_id)
     {
         $invoice_id = mysqli_escape_string($this->conn, $invoice_id);
-        $a = mysqli_query($this->conn, "SELECT * FROM invoices WHERE `invoice_id` = '$invoice_id'");
+        $a = mysqli_query($this->conn, "SELECT * FROM invoice WHERE `invoice_id` = '$invoice_id'");
         if (mysqli_num_rows($a))
             while ($row = mysqli_fetch_assoc($a)) $b = $row;
         else $b = false;
@@ -366,8 +399,7 @@ class Invoice extends DB
     {
         $user_id = mysqli_escape_string($this->conn, $user_id);
         $offset = $this->Offset($page, $limit);
-        $a = mysqli_query($this->conn, "SELECT invoice_id, invoice_user_fullname, invoice_user_phone_number, invoice_user_email, invoice_subtotal, invoice_fee_transport, invoice_fee_bond, invoice_status, invoice_created_at FROM invoices WHERE user_id = '$user_id' ORDER BY invoice_id DESC " . $offset);
-        // $a = mysqli_query($this->conn, "SELECT * FROM invoices WHERE `user_id` = '$user_id' ORDER BY invoice_id DESC");
+        $a = mysqli_query($this->conn, "SELECT * FROM invoice WHERE user_id = '$user_id' ORDER BY invoice_id DESC " . $offset);
         $b = array();
         if (mysqli_num_rows($a))
             while ($row = mysqli_fetch_assoc($a)) $b = array_merge($b, array($row));
@@ -377,56 +409,57 @@ class Invoice extends DB
     public function getInvoiceDetails($invoice_id)
     {
         $invoice_id = mysqli_escape_string($this->conn, $invoice_id);
-        $a = mysqli_query($this->conn, "SELECT ID.product_id, P.product_name, P.product_img, invd_product_quantity, invd_product_rental_price FROM invoice_details ID LEFT JOIN products P ON ID.product_id = P.product_id WHERE `invoice_id` = '$invoice_id'");
+        $a = mysqli_query($this->conn, "SELECT invoice_id, ID.product_id, P.product_name, P.product_img, P.product_price, detail_product_size, detail_product_quantity FROM invoice_detail ID LEFT JOIN products P ON ID.product_id = P.product_id WHERE `invoice_id` = '$invoice_id'");
         $b = array();
         if (mysqli_num_rows($a))
             while ($row = mysqli_fetch_assoc($a)) $b = array_merge($b, array($row));
         mysqli_free_result($a);
         return $b;
     }
-    public function postInvoice($user_id, $invoice_user_fullname, $invoice_user_phone_number, $invoice_user_email, $invoice_user_address, $invoice_note)
+    public function postInvoice($user_id, $invoice_user_fullname, $invoice_user_phone_number, $invoice_user_email, $invoice_user_address)
     {
         $cart_subtotal = 0;
-        $cart_weight = 0;
         $carts = new Cart;
         $cart = $carts->getCart($user_id);
         foreach ($cart as $k => $v) {
             $product_id = $v['product_id'];
-            if ($v['cart_product_quantity'] > $v['product_quantity']) {
-                $cart_product_quantity = $v['product_quantity'];
-                $carts->updateCart($user_id, $product_id, $cart_product_quantity);
-            } else $cart_product_quantity = $v['cart_product_quantity'];
-            $cart_subtotal += $cart_product_quantity * $v['product_rental_price'];
-            $cart_weight += $cart_product_quantity * $v['product_weight'];
+            $cart_subtotal += $v['cart_product_quantity'] * $v['product_price'];
         }
         $user_id = mysqli_escape_string($this->conn, $user_id);
-        $invoice_user_fullname = mysqli_escape_string($this->conn, $invoice_user_fullname);
-        $invoice_user_phone_number = mysqli_escape_string($this->conn, $invoice_user_phone_number);
-        $invoice_user_email = mysqli_escape_string($this->conn, $invoice_user_email);
-        $invoice_user_address = mysqli_escape_string($this->conn, $invoice_user_address);
-        $invoice_note = mysqli_escape_string($this->conn, $invoice_note);
 
-        $invoice_created_at = time();
-        $a = mysqli_query($this->conn, "INSERT INTO invoices (user_id, invoice_user_fullname, invoice_user_phone_number, invoice_user_email, invoice_user_address, invoice_note, invoice_subtotal, invoice_created_at)
-												VALUES ('$user_id', '$invoice_user_fullname', '$invoice_user_phone_number', '$invoice_user_email', '$invoice_user_address', '$invoice_note', '$cart_subtotal', '$invoice_created_at')");
+        $invoice_created_at = date("Y-m-d", time());
+        $a = mysqli_query($this->conn, "INSERT INTO invoice (user_id, invoice_total_payment, invoice_created_at)
+												VALUES ('$user_id', '$cart_subtotal', '$invoice_created_at')");
         if ($a) {
             $invoice_id = mysqli_insert_id($this->conn);
             foreach ($cart as $k => $v) {
                 $product_id = $v['product_id'];
-                $invd_product_quantity = $v['cart_product_quantity'];
-                $invd_product_rental_price = $v['product_rental_price'];
-                mysqli_query($this->conn, "INSERT INTO invoice_details (invoice_id, product_id, invd_product_quantity, invd_product_rental_price)
-																VALUES ('$invoice_id', '$product_id', '$invd_product_quantity', '$invd_product_rental_price')");
-                mysqli_query($this->conn, "UPDATE products SET product_quantity = CASE WHEN product_quantity-$invd_product_quantity < 0 THEN 0 ELSE product_quantity-$invd_product_quantity END WHERE product_id = $product_id");
+                $detail_product_size = $v['cart_product_size'];
+                $detail_product_quantity  = $v['cart_product_quantity'];
+                mysqli_query($this->conn, "INSERT INTO invoice_detail (invoice_id, product_id, detail_product_size, detail_product_quantity)
+                                                                VALUES ('$invoice_id', '$product_id', '$detail_product_size', '$detail_product_quantity ')");
+                // mysqli_query($this->conn, "UPDATE products SET product_quantity = CASE WHEN product_quantity-$invd_product_quantity < 0 THEN 0 ELSE product_quantity-$invd_product_quantity END WHERE product_id = $product_id");
             }
             $carts->deleteCartsByUserId($user_id);
             return true;
         } else return false;
     }
-    public function updateStatus($invoice_id, $invoice_status)
+}
+class Statistic
+{
+    public function countProducts()
     {
-        $invoice_id = mysqli_escape_string($this->conn, $invoice_id);
-        $invoice_status = mysqli_escape_string($this->conn, $invoice_status);
-        mysqli_query($this->conn, "UPDATE invoices SET invoice_status = '$invoice_status' WHERE invoice_id = $invoice_id");
+        $a = new Products;
+        return $a->getCount();
+    }
+    public function countInvoices()
+    {
+        $a = new Invoice();
+        return $a->getCount();
+    }
+    public function countUsers()
+    {
+        $a = new User;
+        return $a->getCount();
     }
 }
