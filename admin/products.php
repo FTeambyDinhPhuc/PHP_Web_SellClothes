@@ -34,7 +34,7 @@ $products = new Product;
                             <td><?php echo $v['product_location']; ?></td>
                             <td><?php echo $v['product_material']; ?></td>
                             <td><?php echo $v['product_type_name']; ?></td>
-                            <td><a href="product.php?act=edit&product_id=<?php echo $v['product_id']; ?>" class="btn btn-info w-75 mb-1">Edit</a></td>
+                            <td><a href="product.php?act=edit&product_id=<?php echo $v['product_id']; ?>" class="btn btn-info px-3 mb-1">Edit</a></td>
                         </tr>
                     <?php } ?>
                 </tbody>
