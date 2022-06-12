@@ -62,6 +62,7 @@ if ($_POST['submit']) {
                             <thead>
                                 <tr>
                                     <th>Sản phẩm</th>
+                                    <th>Size</th>
                                     <th>Giá</th>
                                     <th>Tổng</th>
                                 </tr>
@@ -75,6 +76,7 @@ if ($_POST['submit']) {
                                 ?>
                                     <tr>
                                         <td><?php echo $v['product_name']; ?><strong><span class="multiply">&#10005;</span><?php echo $v['cart_product_quantity']; ?></strong></td>
+                                        <td><?php echo $v['cart_product_size'];?></td>                                     
                                         <td><?php echo formatPrice($v['product_price']); ?><span>đ</span></td>
                                         <td><?php echo formatPrice($subtotal); ?><span>đ</span></td>
                                     </tr>
@@ -106,8 +108,7 @@ if ($_POST['submit']) {
 
                         <div class="payment-group mt-2">
                             <p class="mb-2">
-                                Dữ liệu cá nhân của bạn sẽ được sử dụng để xử lý đơn đặt hàng của bạn,
-                                hỗ trợ trải nghiệm của bạn trên toàn bộ trang web này và cho các mục đích khác.
+                                Bạn sẽ thanh toán khi nhận được hàng.
                             </p>
                             <button type="submit" name="submit" value="submit" class="btn btn-oder py-2">Place Order</button>
                         </div>

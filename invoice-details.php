@@ -12,6 +12,7 @@ $inv = $invoices->getInvoiceDetails(getGET('invoice_id'));
                 <tr>
                     <th>&nbsp;</th>
                     <th>Sản phẩm</th>
+                    <th>Size</th>
                     <th>Số lượng</th>
                     <th>Đơn giá</th>
                     <th>Tổng tiền</th>
@@ -26,6 +27,10 @@ $inv = $invoices->getInvoiceDetails(getGET('invoice_id'));
                         <td class="product-name">
                             <a href=""><?php echo $v['product_name']; ?></a>
                         </td>
+                        <td class="detail_product_size">
+                            <?php echo $v['detail_product_size']; ?>
+                        </td>
+                        
                         <td class="bill-total"><?php echo $v['detail_product_quantity']; ?></td>
                         <td class="product-quantity"><?php echo formatPrice($v['product_price']); ?><span> VNĐ</span>
                         </td>

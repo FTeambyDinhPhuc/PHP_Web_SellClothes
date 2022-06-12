@@ -292,7 +292,7 @@ class Products extends DB
         $keyword = mysqli_escape_string($this->conn, $keyword);
         $order_by = $this->orderBy($order_by);
         $offset = $this->Offset($page, $limit);
-        $a = mysqli_query($this->conn, $this->productWithProductType . " WHERE MATCH(product_name) AGAINST ('$keyword') ORDER BY $order_by " . $offset);
+        $a = mysqli_query($this->conn, $this->productWithProductType . " WHERE MATCH(product_name) AGAINST ('$keyword') OR product_name LIKE ('%$keyword%') ORDER BY $order_by " . $offset);
         $b = array();
         if (mysqli_num_rows($a))
             while ($row = mysqli_fetch_assoc($a)) $b = array_merge($b, array($row));

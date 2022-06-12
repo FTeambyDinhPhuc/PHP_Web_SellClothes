@@ -21,13 +21,13 @@ include 'header.php';
                 <h5>My Team</h5>
                 <ol>
                     <li>
-                        <p><span><i class="fa-solid fa-graduation-cap"></i></span>&ensp;Lê Đình Phúc - FrontEnd</p>
+                        <p><span><i class="fa-solid fa-graduation-cap"></i></span>&ensp;Lê Đình Phúc - FrontEnd Web</p>
                     </li>
                     <li>
-                        <p><span><i class="fa-solid fa-graduation-cap"></i></span>&ensp;Nguyễn Thiên Minh - FrontEnd</p>
+                        <p><span><i class="fa-solid fa-graduation-cap"></i></span>&ensp;Nguyễn Thiên Minh - AppMobie</p>
                     </li>
                     <li>
-                        <p><span><i class="fa-solid fa-graduation-cap"></i></span>&ensp;Mã Lương Linh - BackEnd</p>
+                        <p><span><i class="fa-solid fa-graduation-cap"></i></span>&ensp;Mã Lương Linh - BackEnd Web</p>
                     </li>
                 </ol>
             </div>
@@ -93,7 +93,7 @@ include 'header.php';
     </div>
     <!-- Map End -->
     <!-- Contact Form Begin -->
-    <div class="contact-form spad">
+    <!-- <div class="contact-form spad">
         <div class="container">
             <div class="row">
                 <div class="col-lg-12">
@@ -117,7 +117,7 @@ include 'header.php';
                 </div>
             </form>
         </div>
-    </div>
+    </div> -->
     <!-- Contact Form End -->
 
 </div>

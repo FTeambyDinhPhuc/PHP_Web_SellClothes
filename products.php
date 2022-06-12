@@ -44,7 +44,7 @@ $product = new Product();
                     ?>
                         <div class="col-md-6 col-lg-4">
                             <a class="card" href="product-details.php?product_id=<?php echo $v['product_id']; ?>">
-                                <img src="<?php echo $v['product_img']; ?>">
+                                <img src="<?php echo $v['product_img']; ?> " alt="<?php echo $v['product_name']; ?>">
                                 <div class="card-body">
                                     <p style="text-overflow: ellipsis; white-space: nowrap; overflow: hidden;" title="<?php echo $v['product_name']; ?>" class="name-product card-title"><?php echo $v['product_name']; ?></p>
                                     <p class="price-product card-text"><?php echo $v['product_price']; ?><span class="currency-symbol">&#160;VND</span></p>

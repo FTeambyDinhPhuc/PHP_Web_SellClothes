@@ -20,7 +20,7 @@ if ($_POST['submit']) {
     $user = $users->getUser($_SESSION['user_id']);
 }
 ?>
-<div class="bgAccountInformation py-4">
+<div class="bgAccountInformation py-5">
     <div class="container mx-auto shadow py-4 px-4">
         <div class="body-content">
             <h2 class="text-left">Account information</h2>

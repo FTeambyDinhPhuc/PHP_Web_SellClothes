@@ -63,7 +63,20 @@ if ($p == false) {
                         </div>
                         <input type="hidden" value="<?php echo $p['product_id'] ?>" name="product_id" />
                         <input id="num" type="hidden" value="1" name="quantity" />
-                        <button class="btn btn-warning btn-addtocart shadow my-4" type="submit" name="submit" value="submit">Add to cart</button>
+                        <?php 
+                          if($_SESSION['user_id'])
+                          { ?>
+                            <button class="btn btn-warning btn-addtocart shadow my-4" type="submit" name="submit" value="submit">Add to cart</button>
+                            <?php
+                          } else
+                          {
+                            ?>
+                            <a href="login.php" >Vui lòng đăng nhập để mua vật phẩm!</a>
+                            <?php
+                          }
+                        ?>
+ 
+
                     </div>
                 </div>
             </form>
