@@ -99,6 +99,7 @@ if ($_POST['submit']) {
                                 <tr class="order-total">
                                     <th>Tổng đơn</th>
                                     <td></td>
+                                    <td></td>
                                     <td><?php echo formatPrice($total); ?><span>đ</span></td>
                                 </tr>
                             </tfoot>
