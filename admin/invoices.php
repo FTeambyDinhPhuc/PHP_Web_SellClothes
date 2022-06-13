@@ -16,6 +16,8 @@ $invoices = new Invoice();
                     <tr>
                         <th>Mã hóa đơn</th>
                         <th>Khách hàng</th>
+                        <th>Địa chỉ</th>      
+                        <th>Số điện thoại</th>                   
                         <th>Ngày lập</th>
                         <th>Tổng hóa đơn</th>
                         <th>&nbsp;</th>
@@ -26,6 +28,8 @@ $invoices = new Invoice();
                         <tr>
                             <td><?php echo $v['invoice_id']; ?></td>
                             <td><?php echo $v['user_full_name']; ?></td>
+                            <td><?php echo $v['user_address']; ?></td>
+                            <td><?php echo $v['user_phone_number']; ?></td>
                             <td><?php echo $v['invoice_created_at']; ?></td>
                             <td><?php echo formatPrice($v['invoice_total_payment']); ?><span>đ</span></td>
                             <td><a href="invoice.php?invoice_id=<?php echo $v['invoice_id']; ?>" class="btn btn-primary w-75 mb-1">Xem chi tiết</a></td>

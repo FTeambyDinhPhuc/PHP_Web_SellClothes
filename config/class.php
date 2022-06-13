@@ -78,14 +78,14 @@ class User extends DB
         mysqli_free_result($a);
         return $b;
     }
-    public function register($user_fullname, $user_email, $user_password)
+    public function register($user_fullname, $user_email, $user_address, $user_phone_number, $user_password)
     {
         $user_fullname = mysqli_escape_string($this->conn, $user_fullname);
         $a = $this->validUser($user_email);
         if ($a == false) {
             $user_password = $this->encryptedPassword($user_password);
-            $b = mysqli_query($this->conn, "INSERT INTO user (`user_full_name`, `user_email`, `user_password`) 
-                                                        VALUES ('$user_fullname', '$user_email', '$user_password')");
+            $b = mysqli_query($this->conn, "INSERT INTO user (`user_full_name`, `user_email`,`user_address`,`user_phone_number`, `user_password`) 
+                                                        VALUES ('$user_fullname', '$user_email','$user_address','$user_phone_number', '$user_password')");
             if ($b)
                 return true;
             else

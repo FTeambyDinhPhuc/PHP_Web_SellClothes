@@ -1,6 +1,7 @@
 <?php
 include 'header.php';
-
+$users = new User();
+$user = $users->getUser($_SESSION['user_id']);
 $cart = new Cart;
 $c = $cart->getCart($_SESSION['user_id']);
 
@@ -24,7 +25,7 @@ if ($_POST['submit']) {
                     <div class="row mb-4">
                         <div class="form__group col-12">
                             <label for="user_full_name">Tên khách hàng<span class="required">*</span></label>
-                            <input type="text" name="user_full_name" id="user_full_name" required />
+                            <input disabled type="text" name="user_full_name" id="user_full_name"value="<?php echo $user['user_full_name']; ?>"  required />
                         </div>
                     </div>
 
@@ -32,21 +33,21 @@ if ($_POST['submit']) {
                     <div class="row mb-4">
                         <div class="form__group col-12">
                             <label for="billing_phone">Số điện thoại <span class="required">*</span></label>
-                            <input type="text" name="billing_phone" id="billing_phone" required />
+                            <input disabled type="text" name="billing_phone" id="billing_phone" value="<?php echo $user['user_phone_number']; ?>" required />
                         </div>
                     </div>
                     <!--mail-->
                     <div class="row mb-4">
                         <div class="form__group col-12">
                             <label for="billing_email">Email <span class="required">*</span></label>
-                            <input type="email" name="billing_email" id="billing_email" required />
+                            <input disabled type="email" name="billing_email" id="billing_email" value="<?php echo $user['user_email']; ?>" required />
                         </div>
                     </div>
                     <!--apartment number-->
                     <div class="row mb-4">
                         <div class="form__group col-12">
                             <label for="billing_address">Địa chỉ<span class="required">*</span></label>
-                            <input type="text" name="billing_address" id="billing_address" required />
+                            <input disabled type="text" name="billing_address" id="billing_address" value="<?php echo $user['user_address']; ?>" required />
                         </div>
                     </div>
 

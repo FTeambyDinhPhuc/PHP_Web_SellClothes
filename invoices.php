@@ -1,5 +1,7 @@
 <?php
 include 'header.php';
+$users = new User();
+$user = $users->getUser($_SESSION['user_id']);
 ?>
 <div class="container-xl history-container py-5 px-5">
     <div class="table-content table-responsive">
@@ -9,6 +11,7 @@ include 'header.php';
                 <tr>
                     <th>Mã đơn hàng</th>
                     <th>Ngày mua</th>
+                    <th>Địa chỉ giao hàng</th>
                     <th>Tổng tiền</th>
                     <th>Trạng thái</th>
                     <th>&nbsp;</th>
@@ -22,6 +25,7 @@ include 'header.php';
                     <tr>
                         <td class="bill-id"><?php echo $v['invoice_id']; ?></td>
                         <td class="bill-date "><?php echo $v['invoice_created_at']; ?></td>
+                        <td class="bill-address "><?php echo $user['user_address']; ?></td>
                         <td class="bill-total"><?php echo formatPrice($v['invoice_total_payment']); ?><span> VNĐ</span>
                         </td>
                         <td class="bill-status">Đã xác nhận</td>

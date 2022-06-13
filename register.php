@@ -4,7 +4,7 @@ include 'header.php';
 if ($_POST['submit']) {
     $user = new User;
     if (getPOST('pass') == getPOST('repass'))
-        if ($user->register(getPOST('fullname'), getPOST('email'), getPOST('pass')))
+        if ($user->register(getPOST('fullname'), getPOST('email'),getPOST('address'),getPOST('phone'), getPOST('pass')))
             echo '<script>alert("Đăng ký thành công! Vui lòng đăng nhập!");location.replace("login.php");</script>';
         else echo '<script>alert("Đăng ký thất bại!");</script>';
     else echo '<script>alert("Mật khẩu nhập lại không trùng khớp!! Vui lòng thử lại!");</script>';
@@ -29,6 +29,14 @@ if ($_POST['submit']) {
                         <div class="input-box">
                             <i class="fas fa-envelope"></i>
                             <input type="email" placeholder="Enter your email" name="email" required />
+                        </div>
+                        <div class="input-box">
+                            <i class="fas fa-envelope"></i>
+                            <input type="text" placeholder="Enter your address" name="address" required />
+                        </div>
+                        <div class="input-box">
+                            <i class="fas fa-envelope"></i>
+                            <input type="tel" placeholder="Enter your phone" name="phone" required />
                         </div>
                         <div class="input-box">
                             <i class="fas fa-lock"></i>
