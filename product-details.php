@@ -39,8 +39,8 @@ if ($p == false) {
                         </div>
                     </div>
                     <div class="col-md-4 mx-auto">
-                        <h1 class="tilte-category"><span class="name-product"><?php echo $p['product_name']; ?></span></h1>
-                        <h1 class="price-product"><?php echo formatPrice($p['product_price']); ?> <span>&nbsp;VND</span></h1>
+                        <h1 class="name-product" style="word-wrap: break-word; white-space:normal" title="<?php echo $p['product_name']; ?>"><?php echo $p['product_name']; ?></h1>
+                        <h2 class="price-product"><?php echo formatPrice($p['product_price']); ?> <span>&nbsp;VND</span></h2>
                         <hr class="light" />
                         <h5>Describe</h5>
                         <p><?php echo str_replace("\n", '<br/>', $p['product_detail']); ?></p>

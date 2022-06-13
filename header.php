@@ -70,7 +70,7 @@ include 'config/config.php';
 
     <!--Nút scroll ont top-->
     <div id="progress">
-        <span id="progress-value">&#x1F815;</span>
+        <span id="progress-value"><i class="fa-solid fa-arrow-up"></i></span>
     </div>
     <!--Hết nút scroll on top-->
 
