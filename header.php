@@ -15,7 +15,6 @@ include 'config/config.php';
     <script src="assets/js/modernizr-2.8.3.js"></script>
     <link href="assets/css/base.css" rel="stylesheet" />
     <link href="assets/css/main.css" rel="stylesheet" />
-    <link href="assets/css/elegant-icons.css" rel="stylesheet" />
     <link href="assets/fonts/fontawesome-free-6.1.1-web/css/all.css" rel="stylesheet" />
     <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;500&display=swap" rel="stylesheet">
 </head>
