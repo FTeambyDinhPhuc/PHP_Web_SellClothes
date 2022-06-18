@@ -2,6 +2,10 @@
 include 'header.php';
 
 $product = new Product();
+
+$page = $_GET['page'];
+if ($page < 1 || $page == '' || !is_numeric($page)) $page = 1;
+
 ?>
 <div>
     <nav aria-label="breadcrumb">
@@ -32,12 +36,15 @@ $product = new Product();
             <div class="col-lg-9">
                 <div class="row">
                     <?php
-                    if (getGET('product_type_id'))
-                        $products = $product->getProductsByProductTypeId(getGET('product_type_id'));
-                    else if (getGET('search')) {
-                        $products = $product->search(getGET('search'), 1, 0, 0);
+                    if (getGET('product_type_id')) {
+                        $products = $product->getProductsByProductTypeId(getGET('product_type_id'), getGET('order_by'), $page);
+                        $total = $product->getCountProductsByProductTypeId(getGET('product_type_id'));
+                    } else if (getGET('search')) {
+                        $products = $product->search(getGET('search'), getGET('order_by'), $page);
+                        $total = $product->getCountSearch(getGET('search'));
                     } else {
-                        $products = $product->getProducts();
+                        $products = $product->getProducts(getGET('order_by'), $page);
+                        $total = $product->getCount();
                     }
                     if ($products != false)
                         foreach ($products as $k => $v) {
@@ -56,6 +63,24 @@ $product = new Product();
                     else echo 'Không tìm thấy!';
                     ?>
                 </div>
+
+                <div>
+                    <p class="text-left">Trang: <?php echo $page ?> / <?php echo ceil($total/DATA_PER_PAGE) ?> </p>
+                    <ul class="MenuTrang text-left">
+                        <?php
+                        $limit = (($page - 1) * DATA_PER_PAGE) . ',' . DATA_PER_PAGE;
+                        $end_page =  ceil($total / DATA_PER_PAGE);
+                        $page_item = [];
+                        for ($i = 1; $i <= $end_page; $i++) {
+                            if (abs($page - $i) <= 3 || $i == 1 || $i == $end_page) {
+                                $page_item[] = $i;
+                                echo '<li><a onclick="pagination('.$i.')">'.$i.'</a></li>';
+                            }
+                        }
+                        ?>
+                    </ul>
+                </div>
+
             </div>
         </div>
     </div>

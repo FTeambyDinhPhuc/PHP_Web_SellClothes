@@ -52,6 +52,16 @@
         });
     }
 
+    function redirectParams(name, value) {
+        var url = new URL(window.location.href);
+        url.searchParams.set(name, value);
+        window.location.href = url.href;
+    }
+
+    function pagination(num) {
+        redirectParams('page', num);
+    }
+
     function del_cart(product_id, cart_product_size) {
         if (confirm('Bạn có muốn xoá sản phẩm này khỏi giỏ hàng?'))
             $.ajax({
