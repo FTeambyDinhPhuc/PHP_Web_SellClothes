@@ -410,12 +410,14 @@ footer {
             }
 /*hết Thanh lọc loại đồ*/
 
+
 /*Phân trang*/
 .MenuTrang{
     margin-top:1.5rem;
 }
 
 .MenuTrang li a {
+    cursor: pointer;
     border: 1px solid black;
    color:var(--text-color);
     padding: .5rem 1rem;
