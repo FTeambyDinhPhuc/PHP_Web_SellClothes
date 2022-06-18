@@ -388,7 +388,7 @@ class Invoice extends DB
     public function getInvoice($invoice_id)
     {
         $invoice_id = mysqli_escape_string($this->conn, $invoice_id);
-        $a = mysqli_query($this->conn, "SELECT * FROM invoice WHERE `invoice_id` = '$invoice_id'");
+        $a = mysqli_query($this->conn, "SELECT * FROM invoice I LEFT JOIN user U ON I.user_id = U.user_id WHERE `invoice_id` = '$invoice_id'");
         if (mysqli_num_rows($a))
             while ($row = mysqli_fetch_assoc($a)) $b = $row;
         else $b = false;

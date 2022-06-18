@@ -2,6 +2,7 @@
 include 'header.php';
 
 $invoices = new Invoice();
+$inv = $invoices->getInvoice(getGET('invoice_id'));
 ?>
 <div class="container-fluid px-4">
     <h1 class="my-4">Quản lý hóa đơn</h1>
