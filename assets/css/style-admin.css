@@ -12,23 +12,6 @@ html,
 body {
     height: 100%;
 }
-
-/*#layoutAuthentication {
-    display: flex;
-    flex-direction: column;
-    min-height: 100vh;
-}*/
-
-/*    #layoutAuthentication #layoutAuthentication_content {
-        min-width: 0;
-        flex-grow: 1;
-    }
-
-    #layoutAuthentication #layoutAuthentication_footer {
-        min-width: 0;
-    }*/
-/**/
-
     #layoutSidenav #layoutSidenav_nav {
         transition: transform 0.15s ease-in-out;
         z-index: 1038;
@@ -107,26 +90,6 @@ body {
     padding-left: 225px;
     top: 56px;
 }
-
-/*#layoutError {
-    display: flex;
-    flex-direction: column;
-    min-height: 100vh;
-}
-
-    #layoutError #layoutError_content {
-        min-width: 0;
-        flex-grow: 1;
-    }
-
-    #layoutError #layoutError_footer {
-        min-width: 0;
-    }*/
-
-/*.img-error {
-    max-width: 20rem;
-}*/
-
 
 .sidenav-menu .nav-link .nav-link-icon {
     margin-right: .5rem;
@@ -311,3 +274,11 @@ body {
     width:20px;
 }
 /*Hết màn hình quản lý sản phẩm*/
+
+/*In*/
+@media print{
+    nav, footer, #layoutSidenav_nav, #groupBtnStatus {
+        display: none;
+    }
+}
+/*Hết in*/
