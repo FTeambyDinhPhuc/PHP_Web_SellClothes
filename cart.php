@@ -7,9 +7,9 @@ if ($_POST) {
 $cart = new Cart;
 $c = $cart->getCart($_SESSION['user_id']);
 ?>
-<div class="container-xl cart-container py-5 px-5">
+<div class="cart-container py-5 px-5">
     <div class="row">
-        <div class="col-lg-7">
+        <div class="col-lg-8 mb-5 mb-xl-0">
             <form class="cart-form" action="#">
                 <div class="row">
                     <div class="col-12">
@@ -61,7 +61,7 @@ $c = $cart->getCart($_SESSION['user_id']);
                         </div>
                     </div>
                 </div>
-                <div class="row border-top">
+                <div class="row">
                     <!-- <div class="col-sm-6 col-xl-7">
                         <div class="coupon border-bottom">
                             <input type="text" id="coupon" name="coupon" class="cart-form__input" placeholder="Mã giảm giá">
@@ -75,7 +75,7 @@ $c = $cart->getCart($_SESSION['user_id']);
                 </div>
             </form>
         </div>
-        <div class="col-lg-4 offset-xl-1">
+        <div class="col-lg-4">
             <div class="cart-collaterals">
                 <div class="cart-totals">
                     <h5 class="mb-4">Cart totals</h5>
