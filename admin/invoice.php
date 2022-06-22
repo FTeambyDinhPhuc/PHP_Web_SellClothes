@@ -3,50 +3,20 @@ include 'header.php';
 
 $invoices = new Invoice();
 $inv = $invoices->getInvoice(getGET('invoice_id'));
+$users = new User();
+$u = $users->getUser($inv['user_id']);
 ?>
-<div class="container-fluid px-4">
-    <h1 class="my-4">Quản lý hóa đơn</h1>
-    <div class="card mb-4">
-        <div class="card-header">
-            <i class="fas fa-table"></i>
-            Chi tiết hóa đơn
-        </div>
-        <div class="card-body">
-            <table id="datatablesInvoiceDetail" class="table-responsive">
-                <thead>
-                    <tr>
-                        <th>Mã hóa đơn</th>
-                        <th>Tên sản phẩm</th>
-                        <th>Kích thước</th>
-                        <th>Số lượng</th>
-                        <th>Giá</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <?php foreach ($invoices->getInvoiceDetails(getGET('invoice_id')) as $k => $v) { ?>
-                        <tr>
-                            <td><?php echo $v['invoice_id']; ?></td>
-                            <td><?php echo $v['product_name']; ?></td>
-                            <td><?php echo $v['detail_product_size']; ?></td>
-                            <td><?php echo $v['detail_product_quantity']; ?></td>
-                            <td><?php echo formatPrice($v['detail_product_quantity'] * $v['product_price']); ?><span>đ</span></td>
-                        </tr>
-                    <?php } ?>
-                </tbody>
-            </table>
-        </div>
-    </div>
-</div>
 
-<!-- <div class="container-fluid px-4 mt-5 row">
+
+<div class="container-fluid px-4 mt-5 row">
     <div class="col-xl-8">
         <div class="card">
             <div class="card-body">
                 <div class="d-flex justify-content-between">
                     <h1>FTeam</h1>
                     <div>
-                        <h2>Hóa đơn #<span>1</span></h2>
-                        <p>ngày lập: <span>12/12/2022</span></p>
+                        <h2>Hóa đơn #<span><?php echo $inv['invoice_id']; ?></span></h2>
+                        <p>Ngày lập: <span><?php echo $inv['invoice_created_at']; ?></span></p>
                     </div>
                 </div>
                 <hr />
@@ -59,15 +29,15 @@ $inv = $invoices->getInvoice(getGET('invoice_id'));
                     </div>
                     <div>
                         <h4>Đến:</h4>
-                        <p>Nguyễn khuyết danh</p>
-                        <p>0392301230</p>
-                        <p>Long Thạnh Mỹ, Quận 9,Thành phố Hồ Chí Minh</p>
+                        <p><?php echo $u['user_full_name']; ?></p>
+                        <p><?php echo $u['user_phone_number']; ?></p>
+                        <p><?php echo $u['user_address']; ?></p>
                     </div>
                 </div>
-                <div>
+                <!-- <div>
                     <h4>Ghi chú:</h4>
                     <p>hihihihihihihihidhskfbnsdkfn</p>
-                </div>
+                </div> -->
 
                 <hr />
                 <table class="table table-borderless">
@@ -77,24 +47,36 @@ $inv = $invoices->getInvoice(getGET('invoice_id'));
                             <th> Size </th>
                             <th> Số lượng</th>
                             <th> Giá </th>
-                            <th>Tổng tiền</th>
+                            <th>Tạm tính</th>
                         </tr>
 
                     </thead>
-
                     <tbody>
-                        <tr>
+                        <?php
+                        // $total = 0;
+                        foreach ($invoices->getInvoiceDetails(getGET('invoice_id')) as $k => $v) {
+                            $total += $v['detail_product_quantity'] * $v['product_price'];
+                        ?>
+                            <tr>
+                                <td><?php echo $v['product_name']; ?></td>
+                                <td><?php echo $v['detail_product_size']; ?></td>
+                                <td><?php echo $v['detail_product_quantity']; ?></td>
+                                <td><?php echo $v['product_price']; ?></td>
+                                <td><?php echo formatPrice($v['detail_product_quantity'] * $v['product_price']); ?><span>đ</span></td>
+                            </tr>
+                        <?php } ?>
+                        <!-- <tr>
                             <td> Áo plo</td>
                             <td>x</td>
                             <td>2</td>
                             <td>30000<span>đ</span></td>
                             <td>60000<span>đ</span></td>
-                        </tr>
+                        </tr> -->
                     </tbody>
                     <tfoot>
                         <tr>
                             <td colspan="4" align="right"><b>Tổng tiền</b></td>
-                            <td>60000<span>đ</span></td>
+                            <td><?php echo formatPrice($inv['invoice_total_payment']); ?><span>đ</span></td>
                         </tr>
                     </tfoot>
                 </table>
@@ -102,20 +84,19 @@ $inv = $invoices->getInvoice(getGET('invoice_id'));
                 <p>Phương thức thanh toán: <span>COD</span></p>
             </div>
         </div>
-     
+
     </div>
 
     <div class="col-xl-4" id="groupBtnStatus">
-        <div class="card" >
+        <div class="card">
             <div class="card-body d-xl-flex flex-column justify-content-between">
-                <button class="btn btn-success mb-xl-2">Xác nhận đơn hàng</button>
-                <button class="btn btn-warning mb-xl-2">Hủy đơn hàng</button>
+                <!-- <button class="btn btn-success mb-xl-2">Xác nhận đơn hàng</button>
+                <button class="btn btn-warning mb-xl-2">Hủy đơn hàng</button> -->
                 <button id="btnPrintBill" class="btn btn-info mb-xl-2">In hóa đơn</button>
                 <button class="btn btn-outline-dark" onclick="history.back()">Trở về</button>
             </div>
         </div>
     </div>
-
-</div> -->
+</div>
 <?php
 include 'footer.php';
