@@ -3,7 +3,7 @@ include 'header.php';
 
 $invoices = new Invoice();
 ?>
-<div class="container-fluid px-4">
+<!-- <div class="container-fluid px-4">
     <h1 class="my-4">Quản lý hóa đơn</h1>
     <div class="card mb-4">
         <div class="card-header">
@@ -39,9 +39,9 @@ $invoices = new Invoice();
             </table>
         </div>
     </div>
-</div>
+</div> -->
 
-<!-- <div class="container-fluid px-4">
+<div class="container-fluid px-4">
     <h1 class="my-4">Quản lý hóa đơn</h1>
 
     <div class="card mb-4">
@@ -74,7 +74,7 @@ $invoices = new Invoice();
                         <td>1900000<span>đ</span></td>
                         <td>đã xác nhận</td>
                         <td>
-                            <a class="btn btn-info" href="@Url.Action("DetailReceipt","Manage")">View details</a>
+                            <a class="btn btn-info" href="/admin/invoice.php">View details</a>
                         </td>
                     </tr>
              
@@ -82,6 +82,6 @@ $invoices = new Invoice();
             </table>
         </div>
     </div>
-</div> -->
+</div>
 <?php
 include 'footer.php';

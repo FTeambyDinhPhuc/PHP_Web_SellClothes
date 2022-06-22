@@ -116,39 +116,6 @@ $inv = $invoices->getInvoice(getGET('invoice_id'));
         </div>
     </div>
 
-    @*<h1 class="my-4">Chi tiết hóa đơn: <span>11</span></h1>
-
-        <div class="card mb-4">
-            <div class="card-header">
-                <i class="fas fa-table"></i>
-                Chi tiết hóa đơn
-            </div>
-            <div class="card-body">
-                <table id="datatablesInvoiceDetail" class="table-responsive">
-                    <thead>
-                        <tr>
-                            <th>Mã hóa đơn</th>
-                            <th>Tên sản phẩm</th>
-                            <th>Kích thước</th>
-                            <th>Số lượng</th>
-                            <th>Giá</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>@Html.DisplayFor(model => model.IdInvoice)</td>
-                            <td>@Html.DisplayFor(model => model.ProductDetail.Product.NameProduct)</td>
-                            <td>@Html.DisplayFor(model => model.ProductDetail.SizeProduct.NameSizeProduct)</td>
-                            <td>@Html.DisplayFor(model => model.Quantity)</td>
-                            <td>@Html.DisplayFor(model => model.UnitPrice)<span>đ</span></td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-        </div>
-        <button class="btn btn-outline-dark" onclick="history.back()">Trở về</button>*@
-
-
 </div> -->
 <?php
 include 'footer.php';
