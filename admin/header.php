@@ -16,7 +16,6 @@ if (strpos(strtolower($_SERVER['REQUEST_URI']), 'admin') !== false && !isset($_S
     <link href="../assets/css/bootstrap-reboot.css" rel="stylesheet" />
     <script src="../assets/js/modernizr-2.8.3.js"></script>
     <link href="../assets/css/base.css" rel="stylesheet" />
-    <link href="../assets/css/elegant-icons.css" rel="stylesheet" />
     <link href="../assets/fonts/fontawesome-free-6.1.1-web/css/all.css" rel="stylesheet" />
     <link href="https://cdn.jsdelivr.net/npm/simple-datatables@latest/dist/style.css" rel="stylesheet" />
     <link href="../assets/css/style-admin.css" rel="stylesheet" />
