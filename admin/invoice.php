@@ -101,7 +101,7 @@ if (getPOST('invoice_status_id')) {
                     <button class="btn btn-info mb-xl-2" style="width: 100%;" type="submit" name="invoice_status_id" value="3">Đang giao hàng</button>
                     <button class="btn btn-success mb-xl-2" style="width: 100%;" type="submit" name="invoice_status_id" value="4">Giao hàng thành công</button>
                     <button id="btnPrintBill" class="btn btn-info mb-xl-2" style="width: 100%;">In hóa đơn</button>
-                    <button class="btn btn-outline-dark" onclick="history.back()" style="width: 100%;">Trở về</button>
+                    <a class="btn btn-outline-dark" href="javascript:history.go(-1)" style="width: 100%;">Trở về</a>
                 </form>
             </div>
         </div>
