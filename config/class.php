@@ -445,6 +445,7 @@ class Invoice extends DB
         } else return false;
     }
 }
+
 class Statistic
 {
     public function countProducts()
