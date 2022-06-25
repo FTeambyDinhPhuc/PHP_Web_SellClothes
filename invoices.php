@@ -28,7 +28,7 @@ $user = $users->getUser($_SESSION['user_id']);
                         <td class="bill-address "><?php echo $user['user_address']; ?></td>
                         <td class="bill-total"><?php echo formatPrice($v['invoice_total_payment']); ?><span> VNĐ</span>
                         </td>
-                        <td class="bill-status">Đã xác nhận</td>
+                        <td class="bill-status"><?php echo $v['invoice_status_name']; ?></td>
                         <td class="bill-details"><a href="invoice-details.php?invoice_id=<?php echo $v['invoice_id']; ?>">View details</a></td>
                     </tr>
                 <?php } ?>
