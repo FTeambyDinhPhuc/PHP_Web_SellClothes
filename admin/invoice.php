@@ -5,6 +5,10 @@ $invoices = new Invoice();
 $inv = $invoices->getInvoice(getGET('invoice_id'));
 $users = new User();
 $u = $users->getUser($inv['user_id']);
+if (getPOST('invoice_status_id')) {
+    $invoices->updateStatus($inv['invoice_id'], getPOST('invoice_status_id'));
+    $inv = $invoices->getInvoice(getGET('invoice_id'));
+}
 ?>
 
 
@@ -90,10 +94,15 @@ $u = $users->getUser($inv['user_id']);
     <div class="col-xl-4" id="groupBtnStatus">
         <div class="card">
             <div class="card-body d-xl-flex flex-column justify-content-between">
-                <!-- <button class="btn btn-success mb-xl-2">Xác nhận đơn hàng</button>
-                <button class="btn btn-warning mb-xl-2">Hủy đơn hàng</button> -->
-                <button id="btnPrintBill" class="btn btn-info mb-xl-2">In hóa đơn</button>
-                <button class="btn btn-outline-dark" onclick="history.back()">Trở về</button>
+                <p>Trạng thái hiện tại: <?php echo $inv['invoice_status_name']; ?></p>
+                <form method="post" action="">
+                    <button class="btn btn-warning mb-xl-2" style="width: 100%;" type="submit" name="invoice_status_id" value="1">Đang chờ</button>
+                    <button class="btn btn-danger mb-xl-2" style="width: 100%;" type="submit" name="invoice_status_id" value="2">Đã hủy</button>
+                    <button class="btn btn-info mb-xl-2" style="width: 100%;" type="submit" name="invoice_status_id" value="3">Đang giao hàng</button>
+                    <button class="btn btn-success mb-xl-2" style="width: 100%;" type="submit" name="invoice_status_id" value="4">Giao hàng thành công</button>
+                    <button id="btnPrintBill" class="btn btn-info mb-xl-2" style="width: 100%;">In hóa đơn</button>
+                    <a class="btn btn-outline-dark" href="javascript:history.go(-1)" style="width: 100%;">Trở về</a>
+                </form>
             </div>
         </div>
     </div>

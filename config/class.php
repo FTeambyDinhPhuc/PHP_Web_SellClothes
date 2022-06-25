@@ -378,7 +378,7 @@ class Invoice extends DB
     public function getInvoices($page = 1, $limit = DATA_PER_PAGE)
     {
         $offset = $this->Offset($page, $limit);
-        $a = mysqli_query($this->conn, "SELECT * FROM invoice I LEFT JOIN user U ON I.user_id = U.user_id ORDER BY invoice_id DESC " . $offset);
+        $a = mysqli_query($this->conn, "SELECT * FROM invoice I LEFT JOIN user U ON I.user_id = U.user_id LEFT JOIN invoice_status INVS ON I.invoice_status_id = INVS.invoice_status_id ORDER BY invoice_id DESC " . $offset);
         $b = array();
         if (mysqli_num_rows($a))
             while ($row = mysqli_fetch_assoc($a)) $b = array_merge($b, array($row));
@@ -388,7 +388,7 @@ class Invoice extends DB
     public function getInvoice($invoice_id)
     {
         $invoice_id = mysqli_escape_string($this->conn, $invoice_id);
-        $a = mysqli_query($this->conn, "SELECT * FROM invoice I LEFT JOIN user U ON I.user_id = U.user_id WHERE `invoice_id` = '$invoice_id'");
+        $a = mysqli_query($this->conn, "SELECT * FROM invoice I LEFT JOIN user U ON I.user_id = U.user_id LEFT JOIN invoice_status INVS ON I.invoice_status_id = INVS.invoice_status_id WHERE `invoice_id` = '$invoice_id'");
         if (mysqli_num_rows($a))
             while ($row = mysqli_fetch_assoc($a)) $b = $row;
         else $b = false;
@@ -399,7 +399,7 @@ class Invoice extends DB
     {
         $user_id = mysqli_escape_string($this->conn, $user_id);
         $offset = $this->Offset($page, $limit);
-        $a = mysqli_query($this->conn, "SELECT * FROM invoice WHERE user_id = '$user_id' ORDER BY invoice_id DESC " . $offset);
+        $a = mysqli_query($this->conn, "SELECT * FROM invoice I LEFT JOIN invoice_status INVS ON I.invoice_status_id = INVS.invoice_status_id WHERE user_id = '$user_id' ORDER BY invoice_id DESC " . $offset);
         $b = array();
         if (mysqli_num_rows($a))
             while ($row = mysqli_fetch_assoc($a)) $b = array_merge($b, array($row));
@@ -443,6 +443,12 @@ class Invoice extends DB
             $carts->deleteCartsByUserId($user_id);
             return true;
         } else return false;
+    }
+    public function updateStatus($invoice_id, $invoice_status_id)
+    {
+        $invoice_id = mysqli_escape_string($this->conn, $invoice_id);
+        $invoice_status_id = mysqli_escape_string($this->conn, $invoice_status_id);
+        mysqli_query($this->conn, "UPDATE invoice SET invoice_status_id = '$invoice_status_id' WHERE invoice_id = $invoice_id");
     }
 }
 

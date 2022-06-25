@@ -20,6 +20,7 @@ $invoices = new Invoice();
                         <th>Số điện thoại</th>                   
                         <th>Ngày lập</th>
                         <th>Tổng hóa đơn</th>
+                        <th>Trạng thái</th>
                         <th>&nbsp;</th>
                     </tr>
                 </thead>
@@ -32,6 +33,7 @@ $invoices = new Invoice();
                             <td><?php echo $v['user_phone_number']; ?></td>
                             <td><?php echo $v['invoice_created_at']; ?></td>
                             <td><?php echo formatPrice($v['invoice_total_payment']); ?><span>đ</span></td>
+                            <td><?php echo $v['invoice_status_name']; ?></td>
                             <td><a href="invoice.php?invoice_id=<?php echo $v['invoice_id']; ?>" class="btn btn-primary w-75 mb-1">Xem chi tiết</a></td>
                         </tr>
                     <?php } ?>
